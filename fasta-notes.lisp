@@ -31,11 +31,9 @@
   "Nucleotide predicate"
   (not (null (find-nuc-assoc n (get-nuc-assocs)))))
 
-;Should I use map on String?
 (defun str-to-list (str)
   "Turn string into list of chars"
-  (loop for char across str
-        collect char))
+  (map 'list #'(lambda (x) x) str))
 
 (defun nuc-string? (str)
   (every #'is-nuc? (str-to-list str)))
@@ -44,12 +42,15 @@
   "Stop codon predicate"
   (member str (get-stop-codons) :test #'string-equal))
 
+(defun codon-to-assocs (str)
+  (map 'list #'find-nuc-assoc (str-to-list str)))
+
 (defun codon-to-notes (str)
   "Return cons pair represent a note and octave"
-  (cons (find-nuc-assoc (car (str-to-list str)) (get-nuc-assocs))
-        (+
-         (find-nuc-assoc (second (str-to-list str)) (get-nuc-assocs))
-         (find-nuc-assoc (third (str-to-list str)) (get-nuc-assocs)))))
+  (let ((assocs (codon-to-assocs str)))
+    (cons
+     (car assocs)
+     (+ (second assocs) (third assocs)))))
 
 (defun format-codon (str stream)
   (if (is-stop-codon? str)
