@@ -33,7 +33,7 @@
 
 (defun str-to-list (str)
   "Turn string into list of chars"
-  (map 'list #'(lambda (x) x) str))
+  (coerce str 'list))
 
 (defun nuc-string? (str)
   (every #'is-nuc? (str-to-list str)))
