@@ -29,7 +29,7 @@
 
 (defun is-nuc? (n)
   "Nucleotide predicate"
-  (not (null (find-nuc-assoc n (get-nuc-assocs)))))
+  (not (null (find-nuc-assoc n))))
 
 (defun str-to-list (str)
   "Turn string into list of chars"
