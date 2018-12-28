@@ -1,6 +1,13 @@
-(in-package #:fasta-notes)
+(in-package :cl-user)
 
-(prove:subtest "Return list of associations"
-  (prove:ok (listp (get-nuc-assocs))))
+(defpackage #:fasta-notes-tests
+  (:use #:cl
+        #:fasta-notes
+        #:prove))
 
-(prove:finalize)
+(in-package #:fasta-notes-tests)
+
+(subtest "Return list of associations"
+  (ok (listp (get-nuc-assocs))))
+
+(finalize)
