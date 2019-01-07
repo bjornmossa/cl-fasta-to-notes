@@ -2,7 +2,7 @@
 ### _bjornmossa_
 
 ## Testing
-  For running unit tests load both ~:fasta-notes~ and ~:fasta-notes-test~ systems and run ~:prove~ test
+  For running unit tests load both `:fasta-notes` and `:fasta-notes-test` systems and run `:prove` test
   ```lisp
   (ql:quickload :fasta-notes)
   (ql:quickload :fasta-notes-test)
