@@ -2,4 +2,14 @@
 
 (defpackage #:fasta-notes
   (:use #:cl)
-  (:export :get-nuc-assocs))
+  (:export :get-nuc-assocs
+           :get-stop-codons
+           :get-nuc-assoc-val
+           :get-assoc-numlist
+           :find-nuc-assoc
+           :is-nuc?
+           :str-to-list
+           :nuc-string?
+           :is-stop-codon?
+           :codon-to-assocs
+           :codon-to-notes))
