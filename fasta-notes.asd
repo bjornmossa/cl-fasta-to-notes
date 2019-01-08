@@ -7,7 +7,8 @@
   :version "0.0.1"
   :serial t
   :components ((:file "package")
-               (:file "fasta-notes"))
+               (:file "model")
+               (:file "fasta-notes" :depends-on ("model")))
   :in-order-to ((test-op (test-op fasta-notes-test))))
 
 (asdf:defsystem #:fasta-notes-test

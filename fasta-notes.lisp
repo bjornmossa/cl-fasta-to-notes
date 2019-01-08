@@ -59,6 +59,12 @@
               (+ (car (codon-to-notes str)) 1)
               (cdr (codon-to-notes str)))))
 
+(defun write-to-hash (str hashmap)
+  (if (is-stop-codon? str)
+      (setf (gethash str hashmap) (make-codon-note :is-pause t))
+      (setf (gethash str hashmap) (make-codon-note :octave (car (codon-to-notes str))
+                                                   :degree (cdr (codon-to-notes str))))))
+
 (defun read-file (path lines)
   (let ((result ""))
     (progn
