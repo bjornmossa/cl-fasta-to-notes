@@ -2,8 +2,7 @@
 
 (defpackage #:fasta-notes.model
   (:use #:cl)
-  (:export :codon-note
-           :make-codon-note))
+  (:export :codon-note))
 
 (in-package #:fasta-notes.model)
 
