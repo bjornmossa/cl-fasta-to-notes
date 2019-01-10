@@ -80,6 +80,17 @@
        n
        (append result (list (subseq string 0 n))))))
 
+(defun create-model (string)
+  (if (is-stop-codon? string)
+      (make-codon-note :is-pause t)
+      (make-codon-note :octave (+ (car (codon-to-notes string)) 1)
+                       :degree (cdr (codon-to-notes string)))))
+
+(defun file-to-models (file &optional (lines 10))
+  (let* ((fasta-string (read-file file lines))
+         (codon-list (split-string-by fasta-string 3)))
+    (map 'list #'create-model codon-list)))
+
 (defun write-to-file (string stream)
   (if (< (length string) 3)
       nil
