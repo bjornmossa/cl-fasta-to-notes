@@ -1,7 +1,8 @@
 ;;;; package.lisp
 
 (defpackage #:fasta-notes
-  (:use #:cl)
+  (:use #:cl
+        #:fasta-notes.model)
   (:export :get-nuc-assocs
            :get-stop-codons
            :get-nuc-assoc-val

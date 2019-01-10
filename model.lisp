@@ -2,7 +2,11 @@
 
 (defpackage #:fasta-notes.model
   (:use #:cl)
-  (:export :codon-note))
+  (:export :codon-note
+           :make-codon-note
+           :codon-note-octave
+           :codon-note-degree
+           :codon-note-is-pause))
 
 (in-package #:fasta-notes.model)
 
