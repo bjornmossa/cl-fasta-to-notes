@@ -8,7 +8,8 @@
   :serial t
   :components ((:file "model")
                (:file "package")
-               (:file "fasta-notes"))
+               (:file "fasta-notes")
+               (:file "input"))
   :in-order-to ((test-op (test-op fasta-notes-test))))
 
 (asdf:defsystem #:fasta-notes-test
