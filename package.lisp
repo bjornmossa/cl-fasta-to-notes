@@ -13,4 +13,6 @@
            :nuc-string?
            :is-stop-codon?
            :codon-to-assocs
-           :codon-to-notes))
+           :codon-to-notes
+           :split-string-by
+           :create-model))
