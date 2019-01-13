@@ -46,34 +46,14 @@
   (map 'list #'find-nuc-assoc (str-to-list str)))
 
 (defun codon-to-notes (str)
-  "Return cons pair represent a note and octave"
+  "Return cons pair represent a note and dur"
   (let ((assocs (codon-to-assocs str)))
     (cons
      (car assocs)
      (+ (second assocs) (third assocs)))))
 
-(defun format-codon (str stream)
-  (if (is-stop-codon? str)
-      (format stream "~A~%" 0)
-      (format stream "~A ~A~%"
-              (+ (car (codon-to-notes str)) 1)
-              (cdr (codon-to-notes str)))))
-
-(defun read-file (path lines)
-  (let ((result ""))
-    (progn
-      (with-open-file (file path :direction :input)
-        (do ((line (read-line file nil 'eof)
-                   (read-line file nil 'eof))
-             (i 0 (if (nuc-string? line) (+ i 1) i)))
-            ((> i lines)
-             (eql line 'eof))
-          (if (nuc-string? line)
-              (setf result (concatenate 'string result line)))))
-      result)))
-
 (defun split-string-by (string n &optional result)
-  (if (< (length string) n)
+  (if (< (dur string) n)
       result
       (split-string-by
        (subseq string n)
@@ -82,25 +62,7 @@
 
 (defun create-model (string)
   (if (is-stop-codon? string)
-      (make-codon-note :is-pause t)
-      (make-codon-note :octave (+ (car (codon-to-notes string)) 1)
+      (make-codon-note :is-pause t
+                       :dur (+ 1 (car (codon-to-notes string))))
+      (make-codon-note :dur (+ 1 (car (codon-to-notes string)))
                        :degree (cdr (codon-to-notes string)))))
-
-(defun file-to-models (file &optional (lines 10))
-  (let* ((fasta-string (read-file file lines))
-         (codon-list (split-string-by fasta-string 3)))
-    (map 'list #'create-model codon-list)))
-
-(defun write-to-file (string stream)
-  (if (< (length string) 3)
-      nil
-      (progn
-        (format-codon (subseq string 0 3) stream)
-        (write-to-file (subseq string 3) stream))))
-
-(defun fasta-to-notes (in-file out-file lines)
-  (with-open-file (outf out-file
-                        :direction :output
-                        :if-exists :supersede)
-    (write-to-file (read-file in-file lines) outf))
-  'DONE)
