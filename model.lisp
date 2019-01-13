@@ -4,13 +4,13 @@
   (:use #:cl)
   (:export :codon-note
            :make-codon-note
-           :codon-note-octave
+           :codon-note-dur
            :codon-note-degree
            :codon-note-is-pause))
 
 (in-package #:fasta-notes.model)
 
 (defstruct codon-note
-  (octave 0 :type integer)
+  (dur 0 :type integer)
   (degree 0 :type integer)
   (is-pause nil :type boolean))
