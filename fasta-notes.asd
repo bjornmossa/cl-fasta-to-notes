@@ -9,7 +9,8 @@
   :components ((:file "model")
                (:file "package")
                (:file "fasta-notes")
-               (:file "input"))
+               (:file "input")
+               (:file "output"))
   :in-order-to ((test-op (test-op fasta-notes-test))))
 
 (asdf:defsystem #:fasta-notes-test
