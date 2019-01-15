@@ -16,9 +16,9 @@
 (asdf:defsystem #:fasta-notes-test
   :description "Unit tests for fasta-notes package"
   :author "Bjornmossa"
-  :depends-on (:fasta-notes
-               :prove)
-  :defsystem-depends-on (:prove-asdf)
+  :depends-on (#:fasta-notes
+               #:prove
+               #:prove-asdf)
   :components ((:test-file "fasta-notes-spec"))
   :perform (test-op :after (op c)
                     (funcall (intern #.(string :run) :prove) c)))
