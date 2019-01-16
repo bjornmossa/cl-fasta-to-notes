@@ -53,7 +53,7 @@
      (+ (second assocs) (third assocs)))))
 
 (defun split-string-by (string n &optional result)
-  (if (< (dur string) n)
+  (if (< (length string) n)
       result
       (split-string-by
        (subseq string n)
