@@ -10,7 +10,8 @@
                (:file "package")
                (:file "fasta-notes")
                (:file "input")
-               (:file "output"))
+               (:file "output")
+               (:file "user"))
   :in-order-to ((test-op (test-op fasta-notes-test))))
 
 (asdf:defsystem #:fasta-notes-test
