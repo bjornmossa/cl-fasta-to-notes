@@ -36,3 +36,28 @@
                          :direction :output
                          :if-exists :supersede)
       (print-sc-code amps durs degrees out))))
+
+(defun get-degrees-strings ()
+  '("c" "d" "e" "f" "g" "a" "b"))
+
+(defun get-lillypond-note (codon-note)
+  (if (codon-note-is-pause codon-note)
+      (format nil "p~a"
+              (codon-note-dur codon-note))
+      (format nil "~a~a"
+              (nth (codon-note-degree codon-note) (get-degrees-strings))
+              (codon-note-dur codon-note))))
+
+(defmacro print-lillypond-code (stream notes)
+  `(format ,stream
+           "\\relative c' {~C~C  ~{~a~^, ~}~C~C}"
+           #\return #\linefeed ,notes #\return #\linefeed))
+
+(defun get-lillypond-notes (models from to)
+  (map 'list #'get-lillypond-note (subseq models from to)))
+
+(defun make-lillypond-file (input from to &optional outpath)
+  (with-open-file (out outpath
+                       :direction :output
+                       :if-exists :supersede)
+    (print-lillypond-code out (get-lillypond-notes input from to))))
