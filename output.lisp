@@ -42,16 +42,24 @@
 
 (defun get-lillypond-note (codon-note)
   (if (codon-note-is-pause codon-note)
-      (format nil "p~a"
+      (format nil "r~a"
               (codon-note-dur codon-note))
       (format nil "~a~a"
               (nth (codon-note-degree codon-note) (get-degrees-strings))
               (codon-note-dur codon-note))))
 
-(defmacro print-lillypond-code (stream notes)
-  `(format ,stream
-           "\\relative c' {~C~C  ~{~a~^, ~}~C~C}"
-           #\return #\linefeed ,notes #\return #\linefeed))
+(defun list-to-string (lst)
+  (reduce #'(lambda (acc val)
+              (if (zerop (length acc))
+                  val
+                  (concatenate 'string acc " " val)))
+          lst
+          :initial-value ""))
+
+(defun print-lillypond-code (stream notes)
+  (format stream
+           "\\relative c' {~C~C  ~a ~C~C}"
+           #\return #\linefeed (list-to-string notes) #\return #\linefeed))
 
 (defun get-lillypond-notes (models from to)
   (map 'list #'get-lillypond-note (subseq models from to)))
