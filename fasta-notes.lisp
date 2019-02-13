@@ -60,9 +60,12 @@
        n
        (append result (list (subseq string 0 n))))))
 
+(defun get-dur (int)
+  (nth int '(1 2 4 8 16 32 64 128)))
+
 (defun create-model (string)
   (if (is-stop-codon? string)
       (make-codon-note :is-pause t
-                       :dur (+ 1 (car (codon-to-notes string))))
-      (make-codon-note :dur (+ 1 (car (codon-to-notes string)))
+                       :dur (get-dur (car (codon-to-notes string))))
+      (make-codon-note :dur (get-dur (car (codon-to-notes string)))
                        :degree (cdr (codon-to-notes string)))))
