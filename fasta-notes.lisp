@@ -69,3 +69,13 @@
                        :dur (get-dur (car (codon-to-notes string))))
       (make-codon-note :dur (get-dur (car (codon-to-notes string)))
                        :degree (cdr (codon-to-notes string)))))
+
+;; NEW STUFF
+(defun zip-list (lst len &optional (result nil))
+  (if (< (length lst) len)
+      (reverse result)
+      (zip-list
+       (subseq lst len (length lst))
+       len
+       (cons (subseq lst 0 len) result))))
+

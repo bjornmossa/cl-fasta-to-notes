@@ -15,4 +15,5 @@
            :codon-to-assocs
            :codon-to-notes
            :split-string-by
-           :create-model))
+           :create-model
+           :zip-list))
