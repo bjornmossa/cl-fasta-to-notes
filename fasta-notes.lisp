@@ -70,7 +70,31 @@
       (make-codon-note :dur (get-dur (car (codon-to-notes string)))
                        :degree (cdr (codon-to-notes string)))))
 
+
 ;; NEW STUFF
+(defun nucleotide-list ()
+  '(A G T C))
+
+(defun nucleotide-values ()
+  '(0 1 2 3))
+
+(defun get-nucleotide-assocs ()
+  (pairlis (nucleotide-list) (nucleotide-values)))
+
+(defun get-nucleotide-value (nucleotide)
+  (cdr (assoc nucleotide (get-nucleotide-assocs))))
+
+(defun get-codon-values (codon)
+  (map 'list #'get-nucleotide-value codon))
+
+(defun codon-value (codon)
+  (cons
+   (reduce #'+ (butlast codon))
+   (reduce #'+ (rest codon))))
+
+(defun get-dur (int)
+  (nth int '(1 1/2 1/4 1/8 1/16 1/32 1/64 1/128)))
+
 (defun zip-list (lst len &optional (result nil))
   (if (< (length lst) len)
       (reverse result)
@@ -79,3 +103,16 @@
        len
        (cons (subseq lst 0 len) result))))
 
+(defun stop-codon-p (codon)
+  (not (every #'null
+              (map 'list
+                   #'(lambda (x) (equal codon x))
+                   '((T G A) (T A G) (T A A))))))
+
+(defun create-codon-model (codon)
+  (let ((value (codon-value codon)))
+    (if (stop-codon-p value)
+        (make-codon-note :is-pause t
+                         :dur (get-dur (cdr value)))
+        (make-codon-note :degree (car value)
+                         :dur (get-dur (cdr value))))))
