@@ -11,6 +11,6 @@
 (in-package #:fasta-notes.model)
 
 (defstruct codon-note
-  (dur 0 :type integer)
+  (dur 0 :type number)
   (degree 0 :type integer)
   (is-pause nil :type boolean))
