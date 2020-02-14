@@ -1,5 +1,10 @@
 ;;;; fasta-notes.lisp
 
+(defpackage #:fasta-notes
+  (:use #:cl
+        #:fasta-notes.model)
+  (:export :create-model))
+
 (in-package #:fasta-notes)
 
 (defun nucleotide-list ()

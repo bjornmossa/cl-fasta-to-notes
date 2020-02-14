@@ -7,7 +7,6 @@
   :version "0.1.0"
   :serial t
   :components ((:file "model")
-               (:file "package")
                (:file "fasta-notes")
                (:file "input")
                (:file "output")))
