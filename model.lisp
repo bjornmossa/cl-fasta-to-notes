@@ -10,7 +10,15 @@
 
 (in-package #:fasta-notes.model)
 
+(defun dur-p (dur)
+  (or
+   (typep dur 'integer)
+   (typep dur 'ratio)))
+
+(deftype dur ()
+  `(satisfies dur-p))
+
 (defstruct codon-note
-  (dur 0 :type number)
+  (dur 0 :type dur)
   (degree 0 :type integer)
   (is-pause nil :type boolean))
