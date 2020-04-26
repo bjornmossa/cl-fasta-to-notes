@@ -4,57 +4,39 @@
   (:use #:cl
         #:fasta-notes
         #:fasta-notes.input
-        #:fasta-notes.output))
+        #:fasta-notes.model))
 
-(in-package #:fasta-notes.user)
+(in-package :fasta-notes.user)
 
-(defstruct (action
-             (:print-function
-              (lambda (struct stream depth)
-                (declare (ignore depth))
-                (format stream "~a to ~a"
-                        (action-key struct)
-                        (action-description struct)))))
-  (key nil :type symbol)
-  (description nil :type string))
+;; load file
+;; show file info
 
-(defparameter *actions*
-  (map 'list
-       #'(lambda (pair) (make-action :key (car pair)
-                                :description (cdr pair)))
-       '((Q . "quit")
-         (O . "open a file")
-         (C . "create a sequence")
-         (S . "save a file"))))
+(let ((file '(ERROR . "No file selected")))
 
-(defun get-actions-exept (actions item)
-  (remove-if #'(lambda (x) (eq item (action-key x))) actions))
+  (defun load-file ()
+    (print "Enter path to .fasta file:")
+    (let ((path (read-line)))
+      (progn
+        (setf file (read-fasta-file path))
+        (if (eq (car file) 'ERROR)
+            (cdr file)
+            (fasta-file-header (cdr file))))))
 
-(defun get-only-action (actions item)
-  (remove-if-not #'(lambda (x) (eq item (action-key x))) actions))
+  (defun file-info ()
+    (if (eq (car file) 'ERROR)
+        (cdr file)
+        (progn
+          (print (fasta-file-header (cdr file)))
+          (format t "~%File contains ~d nucleotides" (length (fasta-file-content (cdr file))))
+          (format t "~%and ~d codons" (/ (length (fasta-file-content (cdr file))) 3)))))
 
-(defun get-actions (current actions)
-  (cond ((eq current 'Q) nil)
-        ((eq current 'O) (get-only-action actions 'Q))
-        ((or (eq current 'C) (eq current 'S)) (get-actions-exept actions current))))
+  (defun show-sequence (start end)
+    (if (eq (car file) 'ERROR)
+        (cdr file)
+        (let* ((codons (fasta-file-content (cdr file)))
+               (sequence (subseq (create-codon-models codons) start end))
+               (durs (map 'list #'codon-note-dur sequence))
+               (degrees (map 'list #'codon-note-degree sequence)))
+          (format t "Degrees: ~{~a~^, ~}~%Durations: ~{~a~^, ~}" degrees durs))))
 
-(defun print-common-helper-text (current actions)
-  (format nil "Press ~{~a~^, ~}." (get-actions current actions)))
-
-(defmacro with-invite (body)
-  `(progn
-     (princ "Enter a command: ")
-     ,body))
-
-(defun repl ()
-  (do ((command 'O))
-      ((eq command 'Q) 'BYE)
-    (with-invite
-        (setf command (read)))))
-
-;; Action structure
-;;; -------limiter------
-;;; - Common helper text
-;;; -------limiter------
-;;; - Action helper text
-;;; - User input
+  )
