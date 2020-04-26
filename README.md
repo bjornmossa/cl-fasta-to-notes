@@ -28,13 +28,13 @@ You need to to into `fasta-notes.input` package and save a .fasta file you work 
 
   ```common-lisp
   (in-package :fasta-notes.input)
-  (defparameter *mydata* "path-to-file.fasta" optional-count-of-lines-to-process)
+  (defparameter *mydata* (file-to-models "path-to-file.fasta" optional-count-of-lines-to-process))
   ```
 
 Now you can access data with `fasta-notes.input::*mydata*` variable.
 
 ### Export data
-
+#### SuperCollider
   ```common-lisp
   (in-package :fasta-notes.output)
   (make-sc-file fasta-notes.input::*mydata* from to "path-to-output-file.scd")
@@ -46,6 +46,12 @@ Now you can access data with `fasta-notes.input::*mydata*` variable.
   ```
 
 will create a pattern with length of 4 starts at first codon and ends on forth.
+
+#### Lillypond
+
+```common-lisp
+(make-lillypond-file fasta-notes.input::*mydata* 0 4 "path-to-output-file.ly")
+```
 
 ## Testing
   For running unit tests load both `:fasta-notes` and `:fasta-notes-test` systems and run `:prove` test
