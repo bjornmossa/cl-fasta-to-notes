@@ -3,8 +3,7 @@
 (defpackage #:fasta-notes
   (:use #:cl
         #:fasta-notes.model)
-  (:export :create-model
-           :create-codon-models))
+  (:export #:create-codon-models))
 
 (in-package #:fasta-notes)
 
@@ -18,21 +17,16 @@
   (pairlis (nucleotide-list) (nucleotide-values)))
 
 (defun get-nucleotide-value (nucleotide)
-  (cdr (assoc nucleotide (get-nucleotide-assocs))))
+  (cdr (assoc (find-symbol (symbol-name nucleotide) 'fasta-notes) (get-nucleotide-assocs))))
 
 (defun get-codon-values (codon)
   (map 'list #'get-nucleotide-value codon))
 
 (defun codon-value (codon)
-  (cons
-   (reduce #'+ (butlast codon))
-   (reduce #'+ (rest codon))))
-
-(defun codon-value (codon)
   (let ((val (get-codon-values codon)))
-      (cons
-       (reduce #'+ (butlast val))
-       (reduce #'+ (rest val)))))
+    (cons
+     (reduce #'+ (butlast val))
+     (reduce #'+ (rest val)))))
 
 (defun get-dur (int)
   (nth int '(1 1/2 1/4 1/8 1/16 1/32 1/64 1/128)))
@@ -59,5 +53,5 @@
         (make-codon-note :degree (car val)
                          :dur (get-dur (cdr val))))))
 
-(defun create-codon-models (codon-list)
-  (map 'list #'create-codon-model codon-list))
+(defun create-codon-models (codon-list start end)
+  (map 'list #'create-codon-model (subseq (zip-list codon-list 3) start end)))

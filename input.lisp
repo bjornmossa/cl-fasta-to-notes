@@ -25,7 +25,7 @@
 (defun char-to-symbol (char)
   (if (newlinep char)
       nil
-      (intern (string char))))
+      (make-symbol (string char))))
 
 (defun read-fasta-body (stream &optional (result nil))
   (let ((next-char (read-char stream nil)))
