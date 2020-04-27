@@ -10,6 +10,14 @@
 
 ;; load file
 ;; show file info
+(defparameter *file* '(ERROR . "No file selected"))
+
+(defmacro with-file-env (file-env &rest body)
+  (let ((file (gensym)))
+    `(let ((,file ,file-env))
+      (if (eq (car ,file) 'ERROR)
+          (cdr ,file)
+          ,@body))))
 
 (let ((file '(ERROR . "No file selected")))
 
