@@ -3,7 +3,8 @@
 (defpackage #:fasta-notes
   (:use #:cl
         #:fasta-notes.model)
-  (:export :create-model))
+  (:export :create-model
+           :create-codon-models))
 
 (in-package #:fasta-notes)
 
@@ -57,3 +58,6 @@
                          :dur (get-dur (cdr val)))
         (make-codon-note :degree (car val)
                          :dur (get-dur (cdr val))))))
+
+(defun create-codon-models (codon-list)
+  (map 'list #'create-codon-model codon-list))
