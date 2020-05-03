@@ -24,43 +24,35 @@ With sbcl repl run `(ql:quickload :fasta-notes)`
 
 ### Saving DNA data
 
-You need to to into `fasta-notes.input` package and save a .fasta file you work with:
+At first you need to download a .fasta file with dna data. This package works with
+files from https://www.ncbi.nlm.nih.gov/nuccore for shure. Please, create an issue
+is you can not load a file.
 
+For all user interruptions use `fasta-notes.user` package.
   ```common-lisp
   (in-package :fasta-notes.input)
-  (defparameter *mydata* (file-to-models "path-to-file.fasta" optional-count-of-lines-to-process))
   ```
+For loading file use
+  ```common-lisp
+  (load-file)
+  ```
+And follow instructions.
 
-Now you can access data with `fasta-notes.input::*mydata*` variable.
-
+For getting basic info about loaded file use
+  ```common-lisp
+  (file-info)
+  ```
+If you wand to check a sequence without saving use
+  ```common-lisp
+  (show-sequence)
+  ```
 ### Export data
-#### SuperCollider
+In `fasta-notes.user` package use
   ```common-lisp
-  (in-package :fasta-notes.output)
-  (make-sc-file fasta-notes.input::*mydata* from to "path-to-output-file.scd")
+  (save-sequence)
   ```
-'from' and 'to' is integers represent codons needs to process.
-
-  ```common-lisp
-  (make-sc-file fasta-notes.input::*mydata* 0 4 "path-to-output-file.scd")
-  ```
-
-will create a pattern with length of 4 starts at first codon and ends on forth.
-
-#### Lillypond
-
-```common-lisp
-(make-lillypond-file fasta-notes.input::*mydata* 0 4 "path-to-output-file.ly")
-```
-
-## Testing
-  For running unit tests load both `:fasta-notes` and `:fasta-notes-test` systems and run `:prove` test
-  ```common-lisp
-  (ql:quickload :fasta-notes)
-  (ql:quickload :fasta-notes-test)
-  (prove:run :fasta-notes-test)
-  ```
-
+  
+  `NB: During refactoring to faste-notes.user package LilyPond export NOT working. If you need it, please create an issue or PR using SuperCollider export as example.`
 ## License
 
 GNU GPLv3
