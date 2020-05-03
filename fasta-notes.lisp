@@ -31,14 +31,6 @@
 (defun get-dur (int)
   (nth int '(1 1/2 1/4 1/8 1/16 1/32 1/64 1/128)))
 
-(defun zip-list (lst len &optional (result nil))
-  (if (< (length lst) len)
-      (reverse result)
-      (zip-list
-       (subseq lst len (length lst))
-       len
-       (cons (subseq lst 0 len) result))))
-
 (defun stop-codon-p (codon)
   (not (every #'null
               (map 'list
@@ -53,5 +45,5 @@
         (make-codon-note :degree (car val)
                          :dur (get-dur (cdr val))))))
 
-(defun create-codon-models (codon-list start end)
-  (map 'list #'create-codon-model (subseq (zip-list codon-list 3) start end)))
+(defun create-codon-models (codon-list)
+  (map 'list #'create-codon-model codon-list))

@@ -6,7 +6,8 @@
   :license  "GNU GPLv3"
   :version "0.1.0"
   :serial t
-  :components ((:file "model")
+  :components ((:file "utils")
+               (:file "model")
                (:file "fasta-notes")
                (:file "input")
                (:file "output")

@@ -1,7 +1,8 @@
 (in-package :cl-user)
 
 (defpackage #:fasta-notes.input
-  (:use #:cl)
+  (:use #:cl
+        #:fasta-notes.utils)
   (:export :fasta-file
            :fasta-file-header
            :fasta-file-content
@@ -30,7 +31,7 @@
 (defun read-fasta-body (stream &optional (result nil))
   (let ((next-char (read-char stream nil)))
     (if (null next-char)
-        (remove-if #'null result)
+        (zip-list (remove-if #'null result) 3) 
         (read-fasta-body stream (append result (list (char-to-symbol next-char)))))))
 
 (defun read-fasta-file (path)
