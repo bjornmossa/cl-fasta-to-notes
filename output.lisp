@@ -3,7 +3,8 @@
 (defpackage #:fasta-notes.output
   (:use #:cl
         #:fasta-notes
-        #:fasta-notes.model))
+        #:fasta-notes.model)
+  (:export #:make-sc-file))
 
 (in-package #:fasta-notes.output)
 
@@ -16,21 +17,12 @@
       0
       1))
 
-(defun sc-dur (codon-note)
-  (if (= 1 (codon-note-dur codon-note))
-      (format nil "~A" (codon-note-dur codon-note))
-      (format nil "1/~A" (codon-note-dur codon-note))))
-
 (defun make-sc-amps (models)
   (map 'list #'sc-amp models))
 
-(defun make-sc-durs (models)
-  (map 'list #'sc-dur models))
-
-(defun make-sc-file (input from to &optional outpath)
-  (let* ((models (subseq input from to))
-         (amps (make-sc-amps models))
-         (durs (make-sc-durs models))
+(defun make-sc-file (models &optional outpath)
+  (let* ((amps (make-sc-amps models))
+         (durs (map 'list #'codon-note-dur models))
          (degrees (map 'list #'codon-note-degree models)))
     (with-open-file (out outpath
                          :direction :output
