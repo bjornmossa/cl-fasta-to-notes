@@ -30,7 +30,7 @@ is you can not load a file.
 
 For all user interruptions use `fasta-notes.user` package.
   ```common-lisp
-  (in-package :fasta-notes.input)
+  (in-package :fasta-notes.user)
   ```
 For loading file use
   ```common-lisp
