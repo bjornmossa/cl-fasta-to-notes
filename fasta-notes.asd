@@ -4,7 +4,7 @@
   :description "Fasta-notes is a Common lisp tool for DNA data sonification"
   :author "bjornmossa"
   :license  "GNU GPLv3"
-  :version "0.2.0"
+  :version "0.2.1"
   :serial t
   :components ((:file "utils")
                (:file "model")
