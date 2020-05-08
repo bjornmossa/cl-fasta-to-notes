@@ -20,18 +20,20 @@
 
 (defmacro with-path (var &body body)
   (let ((path (gensym)))
-    `(progn
-      (print "Enter path to save a file:")
-      (let ((,path (read-line)))
-        (if (null (directory ,path))
-            (print "Directory doesn't exist")
-            (let ((,var ,path))
-              ,@body))))))
+    `(progn       
+       (print "Enter path to save a file:")
+       (finish-output)
+       (let ((,path (read-line)))
+         (if (null (directory ,path))
+             (print "Directory doesn't exist")
+             (let ((,var ,path))
+               ,@body))))))
 
 (defmacro with-selection (start end &body body)
   (let ((selection (gensym)))
     `(progn
        (print "Enter start and end values delimited by space:")
+       (finish-output)
        (let ((,selection (with-input-from-string (st (read-line)) (list (read st) (read st)))))
          (let ((,start (car ,selection))
                (,end (car (cdr ,selection))))
@@ -65,6 +67,7 @@
 
 (defun load-file ()
   (print "Enter path to .fasta file:")
+  (finish-output)
   (let ((path (read-line)))
     (progn
       (setf *file* (read-fasta-file path))
