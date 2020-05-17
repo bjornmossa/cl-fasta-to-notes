@@ -38,7 +38,11 @@
        (let ((,selection (with-input-from-string (st (read-line)) (list (read st) (read st)))))
          (let ((,start (car ,selection))
                (,end (car (cdr ,selection))))
-           ,@body)))))
+           (if (> ,start ,end)
+               (progn
+                 (print "Selection start must be less then end")
+                 (finish-output))
+               ,@body))))))
 
 (defmacro with-safe-selection (file start end &body body)
   `(with-file-env ,file
