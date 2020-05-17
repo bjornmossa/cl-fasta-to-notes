@@ -3,6 +3,7 @@
 (defpackage #:fasta-notes.user
   (:use #:cl
         #:fasta-notes
+        #:fasta-notes.utils
         #:fasta-notes.input
         #:fasta-notes.output
         #:fasta-notes.model))
@@ -56,14 +57,9 @@
 (defmacro safe-sequence-export (file sequence path ext &body body)
   (let ((pth (gensym)))
     `(with-path ,pth
-       (let ((,path (concatenate 'string ,pth "/" (get-safe-name (fasta-file-header (cdr ,file))) ,ext)))
+       (let ((,path (concatenate 'string ,pth "/" (safe-organism-name (fasta-file-header (cdr ,file))) ,ext)))
          (with-sequence-selection ,file ,sequence
            ,@body)))))
-
-(defun get-safe-name (file-header-content)
-  (let ((first-space (+ 1 (position #\Space file-header-content)))
-        (header-length (length file-header-content)))
-    (subseq file-header-content first-space header-length)))
 
 (defun load-file ()
   (print "Enter path to .fasta file:")
