@@ -6,6 +6,7 @@
   :license  "GNU GPLv3"
   :version "0.2.1"
   :serial t
+  :depends-on (#:cl-ppcre)
   :components ((:file "utils")
                (:file "model")
                (:file "fasta-notes")
