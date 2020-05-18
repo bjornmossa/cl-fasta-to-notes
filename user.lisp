@@ -10,6 +10,11 @@
 
 (in-package :fasta-notes.user)
 
+(defstruct sequence-selection
+  (start nil :type integer)
+  (end nil :type integer)
+  (data nil))
+
 (defparameter *file* '(ERROR . "No file selected"))
 
 (defmacro with-file-env (file-env &rest body)
@@ -55,14 +60,24 @@
         (codons (gensym)))
     `(with-safe-selection ,file ,start ,end
        (let ((,codons (subseq (fasta-file-content (cdr ,file)) ,start ,end)))
-         (let ((,var (create-codon-models ,codons)))
+         (let ((,var (make-sequence-selection :start ,start
+                                              :end ,end
+                                              :data (create-codon-models ,codons))))
            ,@body)))))
 
 (defmacro safe-sequence-export (file sequence path ext &body body)
   (let ((pth (gensym)))
     `(with-path ,pth
-       (let ((,path (concatenate 'string ,pth "/" (safe-organism-name (fasta-file-header (cdr ,file))) ,ext)))
-         (with-sequence-selection ,file ,sequence
+       (with-sequence-selection ,file ,sequence
+         (let ((,path (concatenate 'string
+                                   ,pth
+                                   "/"
+                                   (safe-organism-name (fasta-file-header (cdr ,file)))
+                                   "_"
+                                   (write-to-string (sequence-selection-start ,sequence))
+                                   "_"
+                                   (write-to-string  (sequence-selection-end ,sequence))
+                                   ,ext)))
            ,@body)))))
 
 (defun load-file ()
@@ -83,13 +98,13 @@
 
 (defun show-sequence ()
   (with-sequence-selection *file* sequence
-    (let ((durs (map 'list #'codon-note-dur sequence))
-          (degrees (map 'list #'codon-note-degree sequence)))
+    (let ((durs (map 'list #'codon-note-dur (sequence-selection-data sequence)))
+          (degrees (map 'list #'codon-note-degree (sequence-selection-data sequence))))
       (format t "Degrees: ~{~a~^, ~}~%Durations: ~{~a~^, ~}" degrees durs))))
 
 (defun save-sc-file ()
   (safe-sequence-export *file* seq path ".scd"
-    (make-sc-file seq path)))
+    (make-sc-file (sequence-selection-data seq) path)))
 
 (defun save-sequence ()
   (with-file-env *file*
