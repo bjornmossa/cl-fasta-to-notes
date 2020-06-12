@@ -37,7 +37,7 @@ jobs:
         echo "(quit)" >> ql-install.lisp
 
     - name: Install quicklisp via script
-      run: sbcl --script ql-install.lisp
+      run: sbcl --load quicklisp.lisp --script ql-install.lisp
     
     - name: Build binary
       run: sbcl --non-interactive --eval "(asdf:operate :build-op :fasta-notes)"
