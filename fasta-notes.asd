@@ -16,5 +16,5 @@
                (:file "user")
                (:file "readline"))
   :build-operation "asdf:program-op"
-  :build-pathname "fasta-notes"
+  :build-pathname "build/fasta-notes"
   :entry-point "replic:repl")
