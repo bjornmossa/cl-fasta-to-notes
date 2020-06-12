@@ -28,7 +28,17 @@ jobs:
     
     - name: Download quicklisp
       run: curl -O https://beta.quicklisp.org/quicklisp.lisp
+    
+    - name: Create Quicklisp install script
+      run: |
+        touch ql-install.lisp
+        echo "(quicklisp-quickstart:install)" >> ql-install.lisp
+        echo "(ql:add-to-init-file)" >> ql-install.lisp
+        echo "(quit)" >> ql-install.lisp
 
-    - name: Show directory structure
-      run: ls -l
+    - name: Install quicklisp via script
+      run: sbcl --script ql-install.lisp
+    
+    - name: Build binary
+      run: sbcl --non-interactive --eval "(asdf:operate :build-op :fasta-notes)"
 
