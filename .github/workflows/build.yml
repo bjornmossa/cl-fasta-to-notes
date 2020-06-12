@@ -26,7 +26,9 @@ jobs:
     - name: Install sbcl
       run: sudo apt install sbcl
     
-    - name: Build binary
-      run: |
-        curl -O https://beta.quicklisp.org/quicklisp.lisp,
-        sbcl --load quicklisp.lisp --non-interactive --eval "(asdf:operate :build-op :fasta-notes)"
+    - name: Download quicklisp
+      run: curl -O https://beta.quicklisp.org/quicklisp.lisp
+
+    - name: Show directory structure
+      run: ls -l
+
