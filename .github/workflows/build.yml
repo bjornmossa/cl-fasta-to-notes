@@ -23,9 +23,10 @@ jobs:
     - uses: actions/checkout@v2
 
     # Runs a single command using the runners shell
-    - name: Install dependencies
+    - name: Install sbcl
       run: sudo apt install sbcl
-
-    # Runs a set of commands using the runners shell
-    - name: Build bin
-      run: make build
+    
+    - name: Build binary
+      run: |
+        curl -O https://beta.quicklisp.org/quicklisp.lisp,
+        sbcl --load quicklisp.lisp --non-interactive --eval "(asdf:operate :build-op :fasta-notes)"
