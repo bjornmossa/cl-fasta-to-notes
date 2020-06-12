@@ -34,7 +34,6 @@ jobs:
         touch ql-install.lisp
         echo "(quicklisp-quickstart:install)" >> ql-install.lisp
         echo "(ql:add-to-init-file)" >> ql-install.lisp
-        echo "(quit)" >> ql-install.lisp
 
     - name: Install quicklisp via script
       run: sbcl --load quicklisp.lisp --script ql-install.lisp
