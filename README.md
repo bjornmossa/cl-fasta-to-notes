@@ -8,7 +8,7 @@ to SuperCollider patterns.
 
 Export to other computer music enviroments as Pure Data or Max/MSP planned to the future.
 
-## Using
+## Installation
 
 ### project dependencies:
 
@@ -18,10 +18,34 @@ Export to other computer music enviroments as Pure Data or Max/MSP planned to th
 ### Clone this repo
 
 Clone this repo to you `quicklisp/local-projects` directory.
-Ex: `git clone https://github.com/Arseniusz/cl-fasta-to-notes.git ~/quicklisp/local-projects`
+Ex: `git clone https://github.com/bjornmossa/cl-fasta-to-notes.git ~/quicklisp/local-projects`
 
-### Load it via quicklisp
+### Build binary
 
+With version 1.3.0 it is possible to make a binary. For building go to project directory and run make script
+`cd ~/quicklisp/local-projects/cl-fasta-to-notes && make build`
+After build process completed you can run programm in terminal:
+`~/quicklisp/local-projects/cl-fasta-to-notes/build/fasta-notes`
+
+If there is no permission set permissions for execution with
+`chmod +x PATH_TO_BINARY`
+
+## Using
+### With binary
+Run programm with:
+`~/quicklisp/local-projects/cl-fasta-to-notes/build/fasta-notes`
+
+#### Available commands
+*load-file* - Read and process .fasta file
+*file-info* - Show file basic information, organism name, number of codons and nucleotides
+*show-sequence* - Show selected codons range as scale degrees and values
+*save-sequence* - Save selected codons range as scale degrees and value to file
+
+*help* - Print the help of all available commands.
+*quit* - Quit the application.
+
+You can use TAB for auto complete
+### With SBCL
 With sbcl repl run `(ql:quickload :fasta-notes)`
 
 ### Saving DNA data

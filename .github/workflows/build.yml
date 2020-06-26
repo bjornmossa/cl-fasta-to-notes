@@ -15,29 +15,33 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-20.04
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
+      
     # Runs a single command using the runners shell
-    - name: Install sbcl
+    - name: Make directory for asdf systems
+      run: |
+        mkdir ~/common-lisp
+        rm -rf ~/work/cl-fasta-notes/cl-fasta-notes/build
+        cp -r ~/work/cl-fasta-notes/cl-fasta-notes ~/common-lisp
+    
+    - name: Install SBCL
       run: sudo apt install sbcl
     
-    - name: Download quicklisp
-      run: curl -O https://beta.quicklisp.org/quicklisp.lisp
+    - name: Install asdf
+      run: sudo apt install cl-asdf
     
-    - name: Create Quicklisp install script
+    - name: Install quicklisp
       run: |
-        touch ql-install.lisp
-        echo "(quicklisp-quickstart:install)" >> ql-install.lisp
-        echo "(ql:add-to-init-file)" >> ql-install.lisp
-
-    - name: Install quicklisp via script
-      run: sbcl --load quicklisp.lisp --script ql-install.lisp
-    
+        sudo apt install cl-quicklisp
+        sbcl --non-interactive --load '/usr/share/common-lisp/source/quicklisp/quicklisp.lisp' --eval '(quicklisp-quickstart:install)'
     - name: Build binary
-      run: sbcl --non-interactive --eval "(asdf:operate :build-op :fasta-notes)"
-
+      run: sbcl --non-interactive --eval '(require "asdf")' --eval '#-quicklisp (let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname)))) (when (probe-file quicklisp-init) (load quicklisp-init)))' --eval '(ql:quickload :fasta-notes)' --eval '(asdf:operate :build-op :fasta-notes)'
+    
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: ~/common-lisp/cl-fasta-notes/build/fasta-notes

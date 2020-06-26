@@ -2,4 +2,7 @@
 LISP?=sbcl
 
 build:
-	$(LISP)	--non-interactive --eval "(asdf:operate :build-op :fasta-notes)"
+	$(LISP)	--non-interactive \
+          --load fasta-notes.asd \
+          --eval '(ql:quickload :fasta-notes)' \
+          --eval '(asdf:make :fasta-notes)'
