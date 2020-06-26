@@ -25,8 +25,8 @@ jobs:
     - name: Make directory for asdf systems
       run: |
         mkdir ~/common-lisp
-        rm -rf ~/work/cl-fasta-notes/cl-fasta-notes/build
-        cp -r ~/work/cl-fasta-notes/cl-fasta-notes ~/common-lisp
+        rm -rf ~/work/cl-fasta-to-notes/cl-fasta-notes/build
+        cp -r ~/work/cl-fasta-to-notes/cl-fasta-notes ~/common-lisp
     
     - name: Install SBCL
       run: sudo apt install sbcl
