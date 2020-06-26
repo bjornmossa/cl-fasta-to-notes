@@ -25,8 +25,8 @@ jobs:
     - name: Make directory for asdf systems
       run: |
         mkdir ~/common-lisp
-        rm -rf ~/work/cl-fasta-to-notes/cl-fasta-notes/build
-        cp -r ~/work/cl-fasta-to-notes/cl-fasta-notes ~/common-lisp
+        rm -rf ~/work/cl-fasta-to-notes/cl-fasta-to-notes/build
+        cp -r ~/work/cl-fasta-to-notes/cl-fasta-to-notes ~/common-lisp
     
     - name: Install SBCL
       run: sudo apt install sbcl
@@ -44,4 +44,4 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        path: ~/common-lisp/cl-fasta-notes/build/fasta-notes
+        path: ~/common-lisp/cl-fasta-to-notes/build/fasta-notes
